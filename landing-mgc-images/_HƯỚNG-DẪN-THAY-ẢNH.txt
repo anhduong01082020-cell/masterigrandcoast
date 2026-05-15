@@ -1,0 +1,37 @@
+==========================================================
+HƯỚNG DẪN THAY ẢNH CHO LANDING PAGE MASTERI GRAND COAST
+==========================================================
+
+Landing page (file landing-masteri-grand-coast.html) lấy ảnh từ
+chính folder này. Muốn đổi ảnh nào, chỉ cần thay file tương ứng
+bằng ảnh mới CÙNG TÊN FILE — không cần sửa code HTML.
+
+DANH SÁCH ẢNH ĐANG DÙNG:
+
+1) 01-anh-hero-tong-the.jpg
+   → Ảnh nền lớn ở đầu trang (Hero).
+   → Nên dùng ảnh phối cảnh tổng thể đẹp, ngang, tối thiểu 1600px.
+
+2) 02-phoi-canh-ocean-park.jpg
+   → Ảnh trong mục "Tổng quan dự án".
+   → Ảnh phối cảnh dự án / khu vực, ngang.
+
+3) 03-vi-tri-lien-ket.jpg
+   → Ảnh trong mục "Vị trí" (sơ đồ liên kết vùng / bản đồ vị trí).
+
+4) 04-mat-bang-tong-the.jpg
+   → Ảnh trong mục "Mặt bằng tổng thể".
+
+5) 05-mat-bang-the-wave.jpg
+   → Ảnh thứ hai trong mục "Mặt bằng" (mặt bằng phân khu The Wave).
+
+LƯU Ý KHI THAY ẢNH:
+- Giữ NGUYÊN tên file (kể cả đuôi .jpg). Nếu ảnh mới là .png,
+  hãy đổi tên nó thành đúng tên .jpg ở trên, hoặc đổi đường dẫn
+  trong file HTML cho khớp.
+- Nên dùng ảnh ngang (khổ rộng), độ phân giải 1400–1800px chiều
+  rộng, dung lượng mỗi ảnh dưới ~800KB để trang tải nhanh.
+- Khi gửi/đăng landing page, luôn đính kèm CẢ folder
+  "landing-mgc-images" đặt cạnh file HTML, nếu không ảnh sẽ không
+  hiển thị.
+==========================================================
