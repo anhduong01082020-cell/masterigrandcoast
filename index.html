@@ -2,12 +2,32 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0B2A4A">
+<meta name="format-detection" content="telephone=yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Masteri Grand Coast">
+<meta name="robots" content="index,follow,max-image-preview:large">
 <title>Masteri Grand Coast | Dấu ấn kết tinh hành trình Masteri Collection tại Ocean City</title>
 <meta name="description" content="Masteri Grand Coast - căn hộ hạng sang trái tim Ocean Park 2, Ocean City. Phát triển bởi Masterise Homes. Giá chỉ từ 2,21 tỷ. Hotline 0915 299 163.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Masteri Grand Coast — Căn hộ hạng sang Ocean City">
+<meta property="og:description" content="Trái tim Ocean Park 2, ôm trọn hồ Wonder Wave Park. Giá chỉ từ 2,21 tỷ. Hotline 0915 299 163.">
+<meta property="og:image" content="landing-mgc-images/01-anh-hero-tong-the.jpg">
+<meta property="og:locale" content="vi_VN">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Preload critical assets (LCP) -->
+<link rel="preload" as="image" href="landing-mgc-images/01-anh-hero-tong-the.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="dns-prefetch" href="https://zalo.me">
+<!-- Giảm số font weights: chỉ giữ 400/600/700/800 (đủ dùng) để giảm payload -->
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#0B2A4A; --navy2:#103A63; --navy3:#0F3357;
@@ -19,18 +39,30 @@
     --shadow-s:0 6px 20px rgba(11,42,74,.08);
     --radius:16px;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:rgba(200,162,74,.18)}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{
-    font-family:'Be Vietnam Pro',system-ui,Arial,sans-serif;
+    font-family:'Be Vietnam Pro',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     color:var(--ink); background:var(--white);
     font-size:16.5px; line-height:1.7; -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;overflow-x:hidden;
   }
-  img{max-width:100%;display:block}
-  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block;height:auto}
+  a{color:inherit;text-decoration:none;touch-action:manipulation}
+  button,a,input,textarea,select{touch-action:manipulation}
+  /* tăng giới hạn lazy paint cho các section dưới fold để render nhanh hơn trên Android */
+  section{content-visibility:auto;contain-intrinsic-size:1px 800px}
+  /* hero không được áp content-visibility để LCP nhanh */
+  section.hero,section.stats{content-visibility:visible}
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  }
   .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
   .section{padding:78px 0}
   section[id],a[id]{scroll-margin-top:84px}
+  /* dùng cho khu vực CTA chứa nội dung quan trọng, tránh nhảy layout */
+  .img-frame img{width:100%;height:auto;background:linear-gradient(135deg,#eef2f7,#fbf8f0);min-height:1px}
   .section.alt{background:var(--cream2)}
   .section.navy{background:var(--navy);color:#EAF0F6}
   h1,h2,h3,h4{line-height:1.25;font-weight:700}
@@ -51,13 +83,20 @@
     display:inline-flex;align-items:center;gap:9px;justify-content:center;
     padding:15px 30px;border-radius:50px;font-weight:700;font-size:15.5px;
     cursor:pointer;border:0;transition:.2s;font-family:inherit;
+    user-select:none;-webkit-user-select:none;
   }
+  .btn:active{transform:scale(.97)}
   .btn-gold{background:linear-gradient(135deg,var(--gold-l),var(--gold));color:#3a2c08;box-shadow:0 8px 22px rgba(200,162,74,.4)}
   .btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(200,162,74,.5)}
   .btn-navy{background:var(--navy);color:#fff}
   .btn-navy:hover{background:var(--navy2)}
   .btn-ghost{background:transparent;border:1.6px solid var(--gold);color:var(--gold-d)}
   .btn-block{width:100%}
+  /* tắt hover effect trên thiết bị touch để không bị "stuck hover" */
+  @media(hover:none){
+    .btn-gold:hover,.card:hover,.unit-card:hover,.inv-table tbody tr:hover{transform:none;box-shadow:var(--shadow-s);background:initial}
+    .btn-navy:hover{background:var(--navy)}
+  }
 
   /* ===== HEADER ===== */
   header{
@@ -72,17 +111,26 @@
   .nav-links a{color:#D7E1EC;font-size:13px;font-weight:500;transition:.15s;white-space:nowrap}
   .nav-links a:hover{color:var(--gold-l)}
   .nav-cta{display:flex;align-items:center;gap:11px;flex-shrink:0}
-  .nav-phone{color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+  .nav-phone{color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;gap:6px;white-space:nowrap;min-height:44px;padding:4px 6px;border-radius:8px}
+  .nav-phone:active{background:rgba(255,255,255,.08)}
   .nav-phone small{display:block;font-size:8.5px;color:var(--gold-l);font-weight:500;letter-spacing:.4px}
   .nav-cta .btn{white-space:nowrap;padding:9px 15px;font-size:13px}
-  .burger{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px}
-  .burger span{width:24px;height:2px;background:#fff;display:block}
+  .burger{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px;
+    width:44px;height:44px;align-items:center;justify-content:center;border-radius:8px;
+    transition:background .15s;
+  }
+  .burger:active{background:rgba(255,255,255,.08)}
+  .burger span{width:24px;height:2px;background:#fff;display:block;border-radius:2px;transition:.2s}
+  .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
   /* ===== HERO ===== */
   .hero{
     position:relative;color:#fff;
     background:linear-gradient(180deg,rgba(8,28,49,.62),rgba(8,24,42,.86)),
       url('landing-mgc-images/01-anh-hero-tong-the.jpg') center/cover no-repeat;
+    background-attachment:scroll; /* tránh lag scroll trên Android khi dùng fixed */
   }
   .hero-inner{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;padding:84px 0 90px;align-items:center}
   .hero-badge{
@@ -115,10 +163,12 @@
   .field{margin-bottom:13px}
   .field label{display:block;font-size:13px;font-weight:600;color:var(--navy);margin-bottom:5px}
   .field input{
-    width:100%;padding:13px 15px;border:1.5px solid var(--line);border-radius:10px;
-    font-family:inherit;font-size:15px;color:var(--ink);transition:.15s;
+    width:100%;padding:14px 15px;border:1.5px solid var(--line);border-radius:10px;
+    font-family:inherit;font-size:16px;color:var(--ink);transition:.15s;
+    -webkit-appearance:none;appearance:none;min-height:48px;
   }
   .field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,162,74,.15)}
+  .field input:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
   .form-note{font-size:11.5px;color:var(--muted);margin-top:12px;text-align:center;line-height:1.5}
   .form-ok{
     display:none;background:#EAF7EE;border:1px solid #Bce5c8;color:#1c7a3d;
@@ -206,8 +256,10 @@
   .inv-tools .lbl{font-size:13px;color:var(--muted);font-weight:600;margin-right:4px}
   .chip{
     border:1.5px solid var(--line);background:#fff;color:var(--muted);
-    padding:7px 16px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit;
+    padding:9px 18px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit;
+    -webkit-appearance:none;appearance:none;
   }
+  .chip:active{transform:scale(.96)}
   .chip:hover{border-color:var(--gold)}
   .chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
   .inv-wrap{overflow-x:auto;border-radius:var(--radius);box-shadow:var(--shadow-s);border:1px solid var(--line)}
@@ -289,7 +341,10 @@
   @media(max-width:1160px){
     .nav-links{display:none}
     .burger{display:flex}
-    .nav-links.open{display:flex;position:absolute;top:68px;left:0;right:0;background:var(--navy);flex-direction:column;padding:18px 22px;gap:16px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .nav-links.open{display:flex;position:absolute;top:68px;left:0;right:0;background:var(--navy);flex-direction:column;padding:18px 22px;gap:6px;border-bottom:1px solid rgba(255,255,255,.1);max-height:calc(100vh - 68px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+    .nav-links.open li{border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-links.open li:last-child{border-bottom:0}
+    .nav-links.open a{display:block;padding:12px 4px;font-size:15px}
     .hero-inner{grid-template-columns:1fr;gap:34px;padding:54px 0 64px}
     .grid-2,.reg-grid{grid-template-columns:1fr;gap:30px}
     .grid-3,.grid-4,.pol-grid{grid-template-columns:1fr 1fr}
@@ -300,13 +355,16 @@
     .section{padding:54px 0}
     .spec .row{grid-template-columns:130px 1fr}
     .amen-cols{columns:1}
+    /* ẩn bớt 1 hotline thứ 2 trên header để giảm chật chội */
+    .nav-cta .nav-phone:nth-of-type(2){display:none}
   }
   @media(max-width:760px){
     .grid-3,.grid-4,.pol-grid{grid-template-columns:1fr}
   }
   @media(max-width:600px){
-    body{font-size:15px;padding-bottom:54px}
+    body{font-size:15px;padding-bottom:calc(58px + env(safe-area-inset-bottom,0px))}
     .wrap{padding:0 15px}
+    section[id],a[id]{scroll-margin-top:70px}
     .section{padding:46px 0}
     .grid-3,.grid-4,.pol-grid,.stats-grid{grid-template-columns:1fr}
     .stats-grid{gap:0;padding:26px 0}
@@ -364,9 +422,10 @@
     .price-tag .b small{font-size:13px;display:block;margin-top:3px}
     /* inventory */
     .inv-table{font-size:12.7px}
-    .inv-tools{gap:7px}
-    .inv-tools .lbl{width:100%;margin-bottom:2px}
-    .chip{padding:6px 12px;font-size:12px}
+    .inv-tools{gap:8px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:4px 2px;margin:8px -15px 14px;padding-left:15px;padding-right:15px;scrollbar-width:none}
+    .inv-tools::-webkit-scrollbar{display:none}
+    .inv-tools .lbl{flex-shrink:0;width:auto;margin-bottom:0}
+    .chip{padding:8px 14px;font-size:12.5px;flex-shrink:0;min-height:38px}
     /* timeline */
     .timeline{flex-direction:column}
     .tl-step{padding:0 0 22px 0;min-width:0}
@@ -383,12 +442,20 @@
     .mbar{
       display:flex;position:fixed;bottom:0;left:0;right:0;z-index:95;
       background:#fff;border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.1);
+      padding-bottom:env(safe-area-inset-bottom,0px);
     }
-    .mbar a{flex:1;text-align:center;padding:12px 6px;font-weight:700;font-size:13.3px}
+    .mbar a{flex:1;text-align:center;padding:14px 6px;font-weight:700;font-size:14px;min-height:48px;display:flex;align-items:center;justify-content:center;gap:6px}
+    .mbar a:active{filter:brightness(.92)}
     .mbar .m1{background:#1f9d4d;color:#fff}
     .mbar .m2{background:var(--gold);color:#3a2c08}
-    .float{bottom:72px;right:14px}
-    .float a{width:48px;height:48px;font-size:10.5px}
+    .float{bottom:calc(76px + env(safe-area-inset-bottom,0px));right:14px}
+    .float a{width:50px;height:50px;font-size:10.5px}
+    /* tap target nâng cấp cho tất cả button/link CTA chính */
+    .btn{min-height:48px}
+    .chip{min-height:40px}
+    .faq summary{min-height:54px}
+    /* hero ảnh nền nhẹ hơn cho mobile để giảm decode */
+    .hero{background-position:30% center}
   }
   @media(max-width:380px){
     .hero h1{font-size:24px}
@@ -396,8 +463,19 @@
     .brand b{font-size:12px}
     .brand span{display:none}
     .nav-phone{font-size:12px}
+    .nav-phone span:not(small){font-size:0;line-height:0}
+    .nav-phone:before{content:""}
     .price-tag .b{font-size:22px}
     .stat .n{font-size:27px}
+    .wrap{padding:0 12px}
+    .lead-card{padding:20px 14px}
+    .field input{padding:13px 12px}
+    .mbar a{font-size:13px;padding:13px 4px}
+  }
+  /* màn hình ngang Android (landscape) — giảm chiều cao hero để không che CTA */
+  @media(max-width:900px) and (orientation:landscape){
+    .hero-inner{padding:36px 0 44px}
+    .hero h1{font-size:30px}
   }
 </style>
 </head>
@@ -423,7 +501,7 @@
   📞 <span>0868 977 881<br><small>Hotline 24/7</small></span>
 </a>
       <a href="#dang-ky" class="btn btn-gold" style="padding:11px 22px">Nhận tư vấn</a>
-      <button class="burger" id="burger" aria-label="menu"><span></span><span></span><span></span></button>
+      <button class="burger" id="burger" aria-label="Mở menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
@@ -452,17 +530,18 @@
       </div>
     </div>
     <div>
-      <form class="lead-card lead-form">
+      <form class="lead-card lead-form" novalidate>
         <h3>Đăng ký nhận tư vấn</h3>
         <p class="s">Bảng giá chi tiết · Quỹ căn độc quyền · Chính sách mới nhất</p>
         <div class="field">
-          <label>Họ và tên</label>
-          <input type="text" name="name" placeholder="Nguyễn Văn A" required>
+          <label for="hero-name">Họ và tên</label>
+          <input id="hero-name" type="text" name="name" placeholder="Nguyễn Văn A" required
+            autocomplete="name" autocapitalize="words" enterkeyhint="next" spellcheck="false">
         </div>
         <div class="field">
-          <label>Số điện thoại</label>
-          <input type="tel" name="phone" placeholder="09xx xxx xxx" required
-            pattern="[0-9 .+]{8,15}">
+          <label for="hero-phone">Số điện thoại</label>
+          <input id="hero-phone" type="tel" name="phone" placeholder="09xx xxx xxx" required
+            pattern="[0-9 .+]{8,15}" autocomplete="tel" inputmode="tel" enterkeyhint="send">
         </div>
         <button type="submit" class="btn btn-gold btn-block">Nhận tư vấn ngay</button>
         <div class="form-ok">✓ Cảm ơn Quý khách! Chuyên viên sẽ liên hệ trong ít phút.</div>
@@ -494,11 +573,13 @@
       <p class="lead">Masteri Grand Coast là dự án thứ 14 thuộc bộ sưu tập Masteri Collection và là sản phẩm Masteri <b>cuối cùng</b> tại Ocean City — nơi Masterise Homes dồn trọn tinh hoa về vị trí, quy mô và trải nghiệm sống để tạo nên một biểu tượng "flagship" mới phía Đông Hà Nội.</p>
     </div>
     <div class="grid-2">
-      <div class="img-frame">
-        <img src="landing-mgc-images/02-phoi-canh-ocean-park.jpg" alt="Phối cảnh tổng thể Masteri Grand Coast bên hồ Wonder Wave Park" loading="lazy">
-	<p> &nbsp; &nbsp; </p>
-	<p> &nbsp; &nbsp; </p>
-	<img src="landing-mgc-images/phoi-canh-masteri-grand-coast.jpg" alt="Phối cảnh tổng thể Masteri Grand Coast bên hồ Wonder Wave Park" loading="lazy">
+      <div>
+        <div class="img-frame">
+          <img src="landing-mgc-images/02-phoi-canh-ocean-park.jpg" alt="Phối cảnh tổng thể Masteri Grand Coast bên hồ Wonder Wave Park" loading="lazy" decode="async">
+        </div>
+        <div class="img-frame" style="margin-top:14px">
+          <img src="landing-mgc-images/phoi-canh-masteri-grand-coast.jpg" alt="Phối cảnh chi tiết Masteri Grand Coast" loading="lazy" decode="async">
+        </div>
       </div>
       <div>
         <div class="spec">
@@ -541,7 +622,7 @@
         </ul>
       </div>
       <div>
-        <div class="img-frame"><img src="landing-mgc-images/03-vi-tri-lien-ket.jpg" alt="Vị trí kết nối Masteri Grand Coast tại Ocean City" loading="lazy"></div>
+        <div class="img-frame"><img src="landing-mgc-images/03-vi-tri-lien-ket.jpg" alt="Vị trí kết nối Masteri Grand Coast tại Ocean City" loading="lazy" decode="async"></div>
         <p class="cap">Sơ đồ liên kết vùng — vị trí Masteri Grand Coast tại Ocean City (hình ảnh minh hoạ)</p>
       </div>
     </div>
@@ -558,7 +639,7 @@
       <p class="lead">04 công viên nội khu cùng 180+ tiện ích trải dài khắp dự án, tạo nên hệ cảnh quan liên hoàn compound rộng nhất Masteri Collection với tổng diện tích cảnh quan 53.218 m².</p>
     </div>
     <div class="img-frame" style="margin-bottom:14px">
-      <img src="landing-mgc-images/04-mat-bang-tong-the.jpg" alt="Mặt bằng tổng thể Masteri Grand Coast" loading="lazy">
+      <img src="landing-mgc-images/04-mat-bang-tong-the.jpg" alt="Mặt bằng tổng thể Masteri Grand Coast" loading="lazy" decode="async">
     </div>
     <p class="cap" style="margin-bottom:34px">Mặt bằng tổng thể Masteri Grand Coast — phân khu The Wave &amp; The Sand (hình ảnh minh hoạ)</p>
     <div class="grid-2">
@@ -572,7 +653,7 @@
       </div>
     </div>
     <div class="img-frame" style="margin-top:26px">
-      <img src="landing-mgc-images/05-mat-bang-the-wave.jpg" alt="Mặt bằng phân khu The Wave - Masteri Grand Coast" loading="lazy">
+      <img src="landing-mgc-images/05-mat-bang-the-wave.jpg" alt="Mặt bằng phân khu The Wave - Masteri Grand Coast" loading="lazy" decode="async">
     </div>
     <p class="cap">Mặt bằng phân khu The Wave — toà L1, L2, Z1 (hình ảnh minh hoạ)</p>
   </div>
@@ -967,16 +1048,18 @@
         <p style="margin-top:24px;color:#fff;font-size:17px">Hoặc gọi Hotline: <a href="tel:0915299163" style="color:var(--gold-l);font-weight:800;font-size:22px">0915 299 163</a>&ensp;&emsp;<a href="tel:0868977881" style="color:var(--gold-l);font-weight:800;font-size:22px">0868 977 881</a></p>
       </div>
       <div>
-        <form class="lead-card lead-form">
+        <form class="lead-card lead-form" novalidate>
           <h3>Đăng ký nhận tư vấn &amp; báo giá</h3>
           <p class="s">Bảo mật thông tin · Không spam · Tư vấn tận tâm</p>
           <div class="field">
-            <label>Họ và tên</label>
-            <input type="text" name="name" placeholder="Nguyễn Văn A" required>
+            <label for="reg-name">Họ và tên</label>
+            <input id="reg-name" type="text" name="name" placeholder="Nguyễn Văn A" required
+              autocomplete="name" autocapitalize="words" enterkeyhint="next" spellcheck="false">
           </div>
           <div class="field">
-            <label>Số điện thoại</label>
-            <input type="tel" name="phone" placeholder="09xx xxx xxx" required pattern="[0-9 .+]{8,15}">
+            <label for="reg-phone">Số điện thoại</label>
+            <input id="reg-phone" type="tel" name="phone" placeholder="09xx xxx xxx" required
+              pattern="[0-9 .+]{8,15}" autocomplete="tel" inputmode="tel" enterkeyhint="send">
           </div>
           <button type="submit" class="btn btn-gold btn-block">Nhận tư vấn ngay</button>
           <div class="form-ok">✓ Cảm ơn Quý khách! Chuyên viên sẽ liên hệ trong ít phút.</div>
@@ -1017,36 +1100,74 @@
 </footer>
 
 <!-- floating + mobile bar -->
-<div class="float">
-  <a href="tel:0915299163" class="ph" title="Gọi ngay">GỌI</a>
-  <a href="https://zalo.me/0915299163" class="za" title="Chat Zalo">Zalo</a>
+<div class="float" role="complementary" aria-label="Liên hệ nhanh">
+  <a href="tel:0915299163" class="ph" title="Gọi ngay" aria-label="Gọi hotline">GỌI</a>
+  <a href="https://zalo.me/0915299163" class="za" title="Chat Zalo" rel="noopener" aria-label="Chat Zalo">Zalo</a>
 </div>
-<div class="mbar">
-  <a href="tel:0915299163" class="m1">📞 Gọi 0915 299 163</a>
-  <a href="#dang-ky" class="m2">Đăng ký tư vấn</a>
-</div>
+<nav class="mbar" aria-label="Hành động nhanh">
+  <a href="tel:0915299163" class="m1" aria-label="Gọi 0915 299 163">📞 Gọi 0915 299 163</a>
+  <a href="#dang-ky" class="m2">✦ Đăng ký tư vấn</a>
+</nav>
 
-<script>
+<script defer>
   // ===== CONFIG: dán URL Apps Script vào đây sau khi deploy =====
   var FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbz4SjUYjkUZtEL8QO4-sECkJmTQGrCxI0K0AbjUDhqcFAosAtxfTnuwt2HxahS1q14/exec";
 
-  // mobile menu
-  document.getElementById('burger').addEventListener('click', function(){
-    document.getElementById('navLinks').classList.toggle('open');
+  // mobile menu (passive + aria-expanded để accessible & mượt trên Android)
+  var _burger = document.getElementById('burger');
+  var _nav = document.getElementById('navLinks');
+  _burger.addEventListener('click', function(){
+    var open = _nav.classList.toggle('open');
+    _burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    _burger.setAttribute('aria-label', open ? 'Đóng menu' : 'Mở menu');
   });
   document.querySelectorAll('#navLinks a').forEach(function(a){
-    a.addEventListener('click', function(){ document.getElementById('navLinks').classList.remove('open'); });
+    a.addEventListener('click', function(){
+      _nav.classList.remove('open');
+      _burger.setAttribute('aria-expanded','false');
+      _burger.setAttribute('aria-label','Mở menu');
+    });
   });
+  // đóng menu khi tap bên ngoài
+  document.addEventListener('click', function(e){
+    if(!_nav.classList.contains('open')) return;
+    if(e.target.closest('#navLinks') || e.target.closest('#burger')) return;
+    _nav.classList.remove('open');
+    _burger.setAttribute('aria-expanded','false');
+  }, {passive:true});
 
-  // form submit
+  // form submit (inline error UI thay cho alert() để mượt hơn trên Android)
+  function _showErr(input, msg){
+    var f = input.closest('.field'); if(!f) return;
+    var e = f.querySelector('.field-err');
+    if(!e){
+      e = document.createElement('div');
+      e.className = 'field-err';
+      e.style.cssText='color:#c0392b;font-size:12.5px;margin-top:4px;font-weight:600';
+      f.appendChild(e);
+    }
+    e.textContent = msg;
+    input.style.borderColor = '#e07b7b';
+    input.focus();
+  }
+  function _clearErr(input){
+    var f = input.closest('.field'); if(!f) return;
+    var e = f.querySelector('.field-err'); if(e) e.remove();
+    input.style.borderColor = '';
+  }
   document.querySelectorAll('.lead-form').forEach(function(form){
+    var ni = form.querySelector('[name=name]');
+    var pi = form.querySelector('[name=phone]');
+    ni.addEventListener('input', function(){ _clearErr(ni); });
+    pi.addEventListener('input', function(){ _clearErr(pi); });
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var btn = form.querySelector('button[type=submit]');
       var ok  = form.querySelector('.form-ok');
-      var name = form.querySelector('[name=name]').value.trim();
-      var phone = form.querySelector('[name=phone]').value.trim();
-      if(!name || phone.replace(/[^0-9]/g,'').length < 8){ alert('Vui lòng nhập đúng Họ tên và Số điện thoại.'); return; }
+      var name = ni.value.trim();
+      var phone = pi.value.trim();
+      if(!name){ _showErr(ni,'Vui lòng nhập Họ và tên'); return; }
+      if(phone.replace(/[^0-9]/g,'').length < 8){ _showErr(pi,'Số điện thoại chưa hợp lệ (≥ 8 số)'); return; }
       btn.disabled = true; btn.textContent = 'Đang gửi...';
       var data = new URLSearchParams();
       data.append('name', name);
